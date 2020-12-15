@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+   <title>All departments</title>
+   <meta charset="UTF-8">
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='tables.css') }}">
+</head>
+   <body>
+      <header>
+         <div class="container">
+            <ul class="nav">
+                <li>
+                  <a href = "{{ url_for('view_employees.index') }}">Main Page</a>
+               </li>
+               <li>
+                  <a href = "{{ url_for('view_employees.show_all_emp') }}">Employees</a>
+               </li>
+               <li>
+                  <a href = "{{ url_for('crud_emp.new_emp') }}">Add Employee</a>
+               </li>
+               <li>
+                  <a href = "{{ url_for('view_departments.show_all_dep') }}">Departments</a>
+               </li>
+               <li>
+                  <a href = "{{ url_for('crud_dep.new_dep') }}">Add Department</a>
+               <li>
+            </ul>
+         </div>
+      </header>
+      <hr/>
+      <section class="main">
+         <div class="container">
+             <div class="main_part">
+            {%- for category, message in get_flashed_messages(with_categories = true) %}
+            <div class = "alert">
+               {{ message }}
+            </div>
+            {%- endfor %}
+            <table>
+               <thead>
+                  <tr>
+                        <th>Name</th>
+                        <th>Number of Employees</th>
+                        <th>Average Salary</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for depart in deps %}
+                     <tr>
+                           <td><a href="/department/{{ depart.id }}">{{ depart.name }}</a></td>
+                           <td>{{ number }}</td>
+                           <td>{{ salary }}</td>
+                           <td><a href="/department/{{ depart.id }}/edit">Edit</a></td>
+                           <td><a href="/department/{{ depart.id }}/del">Delete</a></td>
+                     </tr>
+                  {% endfor %}
+               </tbody>
+            </table>
+         </div>
+         </div>
+      </section>
+   </body>
+</html>

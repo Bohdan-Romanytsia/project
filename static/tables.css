@@ -1,0 +1,42 @@
+table {
+    background-color: #FFF;
+    border: none;
+    color: #565;
+    font: 20px Roboto, sans-serif;
+}
+
+table, td, th {
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    text-align: center;
+}
+
+tbody td{
+    background-color: #DFC;
+    border-bottom: 2px solid #B3DE94;
+    border-top: 3px solid #FFFFFF;
+    padding: 9px;
+}
+
+thead th, tr{
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 19px;
+    padding: 0 8px 2px;
+    text-align:center;
+}
+
+tbody tr td{
+    background-color: #CEA;
+    border-bottom: 2px solid #67BD2A;
+}
+
+tbody tr:hover td, tbody tr:hover th {
+    background-color: #8b7;
+    color:#fff;
+}
+a{
+    text-decoration: none;
+    color: #565;
+}
