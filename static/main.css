@@ -2,6 +2,10 @@ body{
     padding: 0;
     margin: 0;
 }
+input, input:hover, input:focus, input:active,
+button, button:hover, button:focus, button:active{
+    outline: none;
+}
 .container{
     margin: 0 auto;
     width: 90%;
@@ -13,9 +17,12 @@ body{
 }
 .nav a{
     text-decoration: none;
-    font-family: Roboto, sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 18px;
     color: #191970;
+}
+.nav a:hover{
+    color: #3A7734;
 }
 .nav li{
     margin-right: 20px;

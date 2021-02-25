@@ -22,7 +22,7 @@ def new_dep():
                 except:
                     flash("The record was not been added")
             else:
-                flash("The record was not been added")
+                flash("A department with this name already exists")
     return render_template('department.html')
 
 
@@ -31,6 +31,8 @@ def del_dep(_id):
     """ this function is used to delete department from DataBase """
     depart = Department.query.get_or_404(_id)
     try:
+        for emp in Employee.query.filter_by(department=depart.name):
+            db.session.delete(emp)
         db.session.delete(depart)
         db.session.commit()
         return redirect("/departments")
@@ -52,6 +54,6 @@ def edit_dep(_id):
         try:
             return redirect("/departments")
         except:
-            flash("The record has not been added")
+            flash("The record has not been updated")
     else:
         return render_template("department.html", deps=deps)

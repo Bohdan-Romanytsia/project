@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import request, flash, url_for, redirect, render_template, Blueprint
-from models.db_tables import db, Employee
+from models.db_tables import db, Employee, Department
 
 
 crud_emp = Blueprint("crud_emp", __name__)
@@ -9,6 +9,7 @@ crud_emp = Blueprint("crud_emp", __name__)
 @crud_emp.route('/employee', methods=['GET', 'POST'])
 def new_emp():
     """ this function is used to add a new employee in DataBase """
+    deps_name = [elem for elem in Department.query.all()]
     if request.method == 'POST':
         if not request.form['name'] or not request.form['salary'] or not request.form['department']:
             flash('Please enter all the fields', 'error')
@@ -27,9 +28,9 @@ def new_emp():
                 db.session.add(person)
                 db.session.commit()
             except:
-                return 'Record was not added'
+                flash("The record has not been added")
             return redirect(url_for('view_employees.show_all_emp'))
-    return render_template('employee.html')
+    return render_template('employee.html', deps=deps_name)
 
 
 @crud_emp.route('/employee/<int:_id>/del')
@@ -48,15 +49,16 @@ def del_emp(_id):
 def edit_emp(_id):
     """ this function is used to change employees data in the DataBase """
     employee = Employee.query.get(_id)
+    deps_name = [elem for elem in Department.query.all()]
     if request.method == "POST":
         employee.name = request.form['name']
-        employee.department = request.form['department']
         employee.salary = request.form['salary']
         employee.birth = request.form['birth']
+        employee.department = request.form['department']
         try:
             db.session.commit()
             return redirect("/employees")
         except:
-            return "The record has not been added"
+            return "The record has not been updated"
     else:
-        return render_template("employee.html", employee=employee)
+        return render_template("employee.html", employee=employee, deps=deps_name)

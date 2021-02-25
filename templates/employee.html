@@ -1,57 +1,23 @@
-<!DOCTYPE html>
-<html lang = "en">
-<head>
+{% extends "base.html" %}
+{% block title %}
    {% if employee %}
-       <title>Edit employee</title>
+       Edit employee
    {% else %}
-       <title>Add employee</title>
+       Add employee
    {% endif %}
-   <meta charset="UTF-8">
-   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}">
-   <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='forms.css') }}">
-</head>
-   <body>
-      <header>
-         <div class="container">
-            <ul class="nav">
-               <li>
-                  <a href = "{{ url_for('view_employees.index') }}">Main Page</a>
-               </li>
-               <li>
-                  <a href = "{{ url_for('view_employees.show_all_emp') }}">Employees</a>
-               </li>
-               <li>
-                  <a href = "{{ url_for('crud_emp.new_emp') }}">Add Employee</a>
-               </li>
-               <li>
-                  <a href = "{{ url_for('view_departments.show_all_dep') }}">Departments</a>
-               </li>
-               <li>
-                  <a href = "{{ url_for('crud_dep.new_dep') }}">Add Department</a>
-               <li>
-            </ul>
-         </div>
-      </header>
-      <hr/>
-      <section class="main">
-         <div class="container">
-             <div class="main_part">
-            {%- for category, message in get_flashed_messages(with_categories = true) %}
-            <div class = "alert">
-               {{ message }}
-            </div>
-            {%- endfor %}
-            <div class="add">
-               <form method = "post">
-                        <input type = "text" name = "name" placeholder = "Name" {% if employee %} value="{{ employee.name }}" {% endif %} /><br>
-                        <input type = "text" name = "department" placeholder = "Department" {% if employee %} value="{{ employee.department }}" {% endif %} /><br>
-                        <input type = "text" name = "salary" placeholder = "Salary" {% if employee %} value="{{ employee.salary }}" {% endif %} /><br>
-                        <input type = "date" name = "birth" {% if employee %} value="{{ employee.birth }}" {% endif %} required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" /><br>
-                        <input type = "submit" class="button" value = "Submit" />
-               </form>
-            </div>
-            </div>
-         </div>
-      </section>
-   </body>
-</html>
+{% endblock %}
+{% block add %}
+    <div class="add">
+       <form method = "post">
+            <input type = "text" name = "name" placeholder = "Name" {% if employee %} value="{{ employee.name }}" {% endif %} /><br>
+            <select class="select_menu" name="department">
+                {% for dep in deps %}
+                    <option value="{{dep.name}}">{{dep.name}}</option>
+                {% endfor %}
+            </select>
+            <input type = "text" name = "salary" placeholder = "Salary" {% if employee %} value="{{ employee.salary }}" {% endif %} /><br>
+            <input type = "date" name = "birth" {% if employee %} value="{{ employee.birth }}" {% endif %} required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" /><br>
+            <input type = "submit" class="button" value = "Submit" />
+       </form>
+    </div>
+{% endblock %}

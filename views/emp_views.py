@@ -1,6 +1,6 @@
-from datetime import timedelta, date
+from datetime import timedelta, date, datetime
 from flask import render_template, request, Blueprint
-from models.db_tables import Employee
+from models.db_tables import Employee, Department
 
 
 view_employees = Blueprint("view_employees", __name__)
@@ -16,10 +16,13 @@ def daterange(date1, date2):
 def index():
     """ this function is used to search for employees in the DataBase by date of birth """
     if request.method == 'POST':
-        _min = list(map(int, request.form['min'].split("-")))
-        _max = list(map(int, request.form['max'].split("-")))
+        try:
+            _min = list(map(int, request.form['min'].split("-")))
+            _max = list(map(int, request.form['max'].split("-")))
+        except ValueError:
+            _max = f"{datetime.now().year}-{datetime.now().month}-{datetime.now().day}".split("-")
         start_dt = date(_min[0], _min[1], _min[2])
-        end_dt = date(_max[0], _max[1], _max[2])
+        end_dt = date(int(_max[0]), int(_max[1]), int(_max[2]))
         employees_with_filter = []
         dates = []
         for dt in daterange(start_dt, end_dt):
@@ -34,7 +37,7 @@ def index():
 @view_employees.route('/employees')
 def show_all_emp():
     """ this function shows all employees in DataBase """
-    return render_template('employees.html', employees=Employee.query.all())
+    return render_template('employees.html', employees=Employee.query.all(), deps=Department.query.all())
 
 
 @view_employees.route('/employee/<int:_id>')
